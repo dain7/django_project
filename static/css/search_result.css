@@ -1,0 +1,52 @@
+#hashtag_posting {
+  padding: 30px;
+
+}
+
+#photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50px;
+  border: 1px solid black;
+
+  margin-left: 200px;
+  margin-right: 80px;
+  float:left;
+
+}
+
+#hashtag {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 30px;
+
+}
+
+#hashtag_count {
+  font-size: 15px;
+}
+
+#title {
+  width: 100%;
+  height: 15px;
+
+  font-weight: bold;
+  color: gray;
+
+  padding: 4px;
+  margin: 8px;
+}
+
+.image_box {
+  margin-left: 5px;
+}
+
+#image_box {
+  width: 250px;
+  height: 250px;
+  background-color: blue;
+  display: inline-block;
+  margin: 8px;
+  float: left;
+
+}

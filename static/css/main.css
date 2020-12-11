@@ -1,0 +1,409 @@
+
+
+/* 스토리 */
+
+#story {
+  width: 60%;
+  height: 120px;
+  background-color: rgb(245, 245, 245);
+  margin-top: 20px;
+  margin-bottom: 50px;
+
+  border: 0.5px solid rgb(210, 210, 210);
+  border-radius: 3px;
+
+  align-items: center;
+  display: flex;
+  overflow-x: scroll;
+  /* flex-direction: column; */
+
+}
+
+#story_fr {
+  margin: 8px 10px 7px 10px;
+}
+
+#story_photo {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50px;
+  margin: 0 0 7px 0;
+  float: left;
+}
+
+#story_name {
+  font-size: 10px;
+  text-align: center;
+}
+
+
+/* 본문 */
+
+#posting {
+  width: 60%;
+  height: 620px;
+
+  background-color: white;
+  border: 0.5px solid rgb(226, 226, 226);
+  border-radius: 3px;
+
+  margin: 50px 0 50px 0;
+  /* overflow-x:hidden; */
+
+}
+
+#posting_user {
+  margin: auto;
+  padding: 10px;
+
+  list-style-type: none;
+
+  height: 30px;
+  vertical-align: center;
+}
+
+#posting_user>li {
+  display: inline;
+  float: left;
+}
+
+#posting_frphoto {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+
+  border: 0.5px solid rgb(226, 226, 226);
+  border-radius: 50px;
+}
+
+#posting_name {
+  position: relative;
+  margin-left: 10px;
+
+  top: 5.5px;
+  left: 6px;
+
+  font-size: 13px;
+  color: rgb(143, 143, 143);
+  font-weight: bold;
+}
+
+/* #posting_menu {
+  position: relative;
+  top: 4px;
+  margin-left: 335px;
+
+  float: left;
+} */
+
+#posting_menu {
+  position: relative;
+  top: 4px;
+  margin-left: 430px;
+
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu_button {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+.drop_menu {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background: rgb(240, 240, 240);
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  top: 30px;
+  right: -3px;
+  font-size: 11pt;
+  box-shadow: 4px 4px 8px gray;
+  z-index: 1;
+
+  text-align: center;
+
+  display: none;
+}
+
+.drop_menu div{
+  margin: 4px;
+  font-size: 13px;
+}
+
+.drop_menu::after {
+  /* bottom: 100%; */
+  transform: translate(-1px, 3px);
+  border: solid transparent;
+  content: " ";
+  top: -22px;
+  height: 0;
+  width: 0;
+  left: 90px;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: rgb(240, 240, 240);
+  border-width: 11px;
+}
+
+
+/* 포스팅 본문 */
+
+#posting_photo {
+  width: 100%;
+  height: 400px;
+}
+
+#posting_ul {
+  height: 20px;
+  margin: auto;
+  padding: 12px;
+
+  list-style-type: none;
+
+  vertical-align: center;
+}
+
+#posting_ul>li {
+  display: inline;
+  float: left;
+}
+
+#posting_li {
+  margin-right: 10px;
+}
+
+.bookmark {
+  margin-left: 300px;
+}
+
+.comment_bookmark {
+  width: 20px;
+  height: 20px;
+}
+
+#comment_img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.posting_like {
+  padding: 0px 12px 0px 12px;
+
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#posting_content {
+  weight: 100%;
+  height: 30px;
+  padding: 5px 12px 0px 12px;
+
+  font-size: 13px;
+}
+
+#content_name{
+  color: black;
+  text-decoration:none;
+}
+
+#content_tag a {
+  text-decoration:none;
+  color: rgb(0, 87, 230);
+}
+
+#content_tag a:visited {
+  text-decoration:none;
+  color: rgb(0, 87, 230);
+}
+
+
+#posting_reply {
+  weight: 100%;
+  padding: 0px 12px 0px 12px;
+  font-size: 13px;
+}
+
+#posting_time {
+  padding: 0px 12px 5px 12px;
+  weight: 100%;
+  font-size: 8px;
+  color: gray;
+}
+
+#reply_input>input[type="text"] {
+  width: 95%;
+  height: 30px;
+
+  border-top: 0.5px solid rgb(226, 226, 226);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+
+  background-color: white;
+  padding: 5px 12px 0px 12px;
+
+  color: gray;
+  font-size: 12px;
+}
+
+/* 추천파트 */
+aside {
+  width: 42%;
+  height: 100%;
+
+  position: fixed;
+  right: 0;
+  top: 58px;
+}
+
+#recommand {
+  width: 250px;
+  height: 100%;
+
+
+  padding: 10px;
+  margin: 30px 10px 10px 10px;
+}
+
+#recommand_me{
+  text-align: center;
+}
+
+#recommand_photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+
+  border: 1px solid rgb(226, 226, 226);
+
+  margin: 0 0 0 10px;
+  float: left;
+}
+
+#recommand_id {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#recommand_nickname {
+  font-size: 13px;
+  margin: 5px 0 3px 0;
+}
+
+
+/* 회원님을 위한 추천 */
+
+#recommand_fr {
+  width: 250px;
+  height: 330px;
+
+  vertical-align: middle;
+
+  margin: 30px 0 0 0;
+
+  display: inline;
+  float: left;
+}
+
+#recommand_line {
+  font-size: 15px;
+  color: gray;
+  float: left;
+}
+
+#recommand_more {
+  font-size: 13px;
+  font-weight: bold;
+  float: right;
+}
+
+
+/*추천 친구 정보*/
+
+#recommand_fr_info {
+  width: 250px;
+  height: 400px;
+
+  float: left;
+
+  vertical-align: middle;
+  margin: 10px 0 0 0;
+}
+
+#fr_info_photo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  margin: 0 10px 0 5px;
+  background-color: blue;
+  float: left;
+}
+
+#fr_info_id {
+  font-size: 14px;
+  font-weight: bold;
+
+  margin: 5px 20px 0 0;
+  float: left;
+}
+
+#fr_follow {
+  font-size: 12px;
+  font-weight: bold;
+  color: blue;
+
+  float:right;
+  margin: 6px 5px 0 0;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  font-size: 12px;
+  color: rgb(190, 190, 190);
+}
+
+#tistory {
+  margin-bottom: 2px;
+}
+
+#instagram {
+  margin-bottom: 15px;
+}
+
+/* 좋아요 버튼 */
+
+button{
+  background-color: transparent;
+  border-color: transparent;
+  border: none;
+  color: #FFFFFF;
+}
+
+button:focus{
+    border: none;
+    outline:none;
+}
+
+
+.like_button {
+  width: 20px;
+  height: 20px;
+}
+
+.like_button:active {
+  transform:scale( 1.5 );
+}
