@@ -1,0 +1,51 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>my instagram</title>
+
+  {% block extrahead %}
+  <link rel="stylesheet" href="{% static 'css/follow_list.css' %}">
+  {% endblock %}
+
+
+</head>
+
+
+<body>
+  {% block content %}
+  <!-- 본문 -->
+  <div class="content">
+
+    <div id="follow_title"> [{{ user.username }}]   Follower List </div>
+    <br>
+
+    {% for follower in user.follower.all %}
+
+
+    <div id="follow_user">
+      <img id = "follow_photo" src="{{ follower.user_photo.url }}" >
+      <span id="follow_id"><a href="{% url 'profile' follower.id %}">{{ follower.username}}</a></span>
+      <span id="follow_nickname">{{ follower.user_nickname }}</span>
+
+    {% if follower.id == request.user.id %}
+    <div id="my_follow_button"></div>
+    {% else %}
+      {% if follower.id not in user.follower.all %}
+      <button id="follow_button" type="button" onclick="location.href='{% url 'list_follow' follower.id %}'">팔로우하기</button>
+      {% else  %}
+      <button id="follow_button" type="button" onclick="location.href='{% url 'list_follow' follower.id %}'">팔로우 취소</button>
+      {% endif %}
+      <!-- <button id="follow_button" type="button" onclick="location.href='{% url 'follow' user.id %}'">팔로우하기</button> -->
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+  </div>
+
+{% endblock %}
+</body>
+</html>

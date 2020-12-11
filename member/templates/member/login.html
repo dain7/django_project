@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dainstagram</title>
+  <style media="screen">
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
+
+    #dainstagram {
+      font-family: 'Dancing Script', cursive;
+      font-size: 100px;
+      color: white;
+      float:left;
+      margin-left: 200px;
+      margin-top: 200px;
+      transform: rotate(-15deg);
+      text-shadow: 4px 2px 2px gray;
+    }
+
+    body {
+      height: 100vh;
+      background-image: url('{% static 'images/signup.jpeg' %}');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .signup {
+      width: 250px;
+      height: 250px;
+      background-color: white;
+      float: right;
+      margin-right: 180px;
+      margin-top: 170px;
+      text-align: center;
+      font-family: 'Nanum Gothic Coding', monospace;
+      background-color: rgba( 255, 255, 255, 0.5 );
+      border: 0.5px solid gray;
+    }
+
+
+    #login {
+      font-size: 10px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h1 id="dainstagram">Dainstagram</h1>
+
+
+  <div class="signup">
+    <h1>로그인</h1>
+    <form class="" method="post">
+    {% csrf_token %}
+    <div id="signup_info">
+      <p id="name"><b>아이디</b><br>
+        <input type="text" name="username" value="아이디">
+      </p>
+
+      <p><b>비밀번호</b><br>
+        <input type="password" name="user_password" value="password">
+      </p>
+
+      <p> {{error}} <p>
+
+      <button type="submit" name="join">로그인</button>
+    </div>
+    </form>
+
+    <p id="login"><a href="{% url 'signup' %}"><u> 아이디 만들래요! </u></a></p>
+  </div>
+</body>
+
+</html>

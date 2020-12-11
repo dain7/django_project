@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dainstagram</title>
+
+  <link rel="stylesheet" href="{% static "css/layout.css" %}">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    var choice = 0;
+    $("#user_img").click(function(){
+      if(choice == 0) {
+        var button = $('#my-profile-info');
+        button.css('display', 'block');
+        choice = 1;
+      } else {
+        var button = $('#my-profile-info');
+        button.css('display', 'none');
+        choice = 0;
+      }
+    });
+  });
+
+ </script>
+
+  {% block extrahead %}
+  {% endblock %}
+</head>
+
+<body>
+
+  <!-- 메인바 -->
+  <!-- 메인바 -->
+  <header class="header">
+    <ul id="head_ul">
+      <li id="head_li" class="logo"><a href="{% url 'main' %}"><b>dainstagram</b></a></li>
+      <li id="head_li" class="search">
+        <form method='post' action='{% url 'search' user.id %}'>
+          {% csrf_token %}
+          <span class="icon"><i class="fa fa-search"></i></span>
+          <input type="text" name="search_button" placeholder="Search..." >
+        </form></li>
+      <li id="head_li" class="menu">
+
+        <ul class="menu_ul">
+
+          <li id="menu_li"><a href="{% url 'main' %}"><img id="comment_img" src="{% static 'images/home.png' %}"></a></li>
+          <li id="menu_li"><a href=""><img id="comment_img" src="{% static 'images/post.png' %}"></a></li>
+          <li id="menu_li"><a href=""><img id="comment_img" src="{% static 'images/compass.png' %}"></a></li>
+          <li id="menu_li"><a href=""><img id="comment_img" src="{% static 'images/unclicked_heart.png' %}"></a></li>
+          <li id="menu_li"><img id="user_img" src="{{ user.user_photo.url }}">
+            <div id="my-profile-info">
+              <div id="profile-info"><a href="{% url 'create' %}">글쓰기</a></div>
+              <div id="profile-info"><a href="{% url 'logout' %}">로그아웃</a></div>
+
+            </div>
+          </li>
+
+
+
+        </ul>
+      </li>
+    </ul>
+  </header>
+
+
+  {% block content %}
+
+  {% endblock %}
+
+
+</body>
+</html>

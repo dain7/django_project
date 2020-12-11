@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <form method="post" enctype="multipart/form-data" >
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <br>
+      <input type="submit" value="제출하기">
+    </form>
+
+    {% if form.errors %}
+    <span style="color: red;">{{ form.errors }}</span>
+    {% endif %}
+
+
+  </body>
+</html>

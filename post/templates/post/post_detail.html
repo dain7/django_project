@@ -1,0 +1,131 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+{% load post_extras %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Dainstagram</title>
+    {% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript">
+
+    function post_like(id) {
+      $.ajax({
+        type: "POST",
+        url: "{% url 'post_like' %}",
+        data: {
+          'blog_id': id,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        dataType: "json",
+        success: function(response){
+          if(response.message == '좋아요 취소!'){
+            $("#posting-like-"+id).html('<b>'+response.like_count + '명</b>이 좋아합니다');
+            $("#img-button-"+id).attr("src", "/static/images/unclicked_heart.png");
+          } else {
+            $("#posting-like-"+id).html('<b>'+response.like_count + '명</b>이 좋아합니다');
+            $("#img-button-"+id).attr("src", "/static/images/click_heart.png");
+          }
+        }
+      })
+    }
+
+    $(document).ready(function(){
+      $('#comment_button').click(function(){
+        $('.comment_input').focus();
+      })
+    });
+
+    </script>
+    {% endblock %}
+  </head>
+  <body>
+
+    {% block content %}
+    <div id="post_box">
+
+      <img id="posting_photo" src="{{ post.posting_photo.url }}">
+      <div id="side_box">
+
+        <div id="profile_box">
+          <ul id="profile_ul">
+            <li id="profile_li"><img id="profile_photo" src="{{ post.posting_writer.user_photo.url }}"></li>
+            <li id="profile_li"><a href="{% url 'profile' post.posting_writer.id %}">{{ post.posting_writer }}</a></li>
+            {% if post.posting_writer != user %}
+            <li id="profile_li"><a href="{% url 'follow' post.posting_writer.id %}">팔로잉</a></li>
+            <div id="profile_menu">···</div>
+            {% endif %}
+          </ul>
+
+        </div>
+
+        <div id="comment_box">
+          <div id="photo_box">
+            <img id="profile_photo2" src="{{ post.posting_writer.user_photo.url }}">
+          </div>
+
+           <div class="comment_content">
+             <div id="profile_id_content"><a href="{% url 'profile' post.posting_writer.id %}"><b>{{ post.posting_writer }}</b></a>
+               <span id="profile_content"> {{ post|add_link|safe }} </span></div>
+             <div id="posting_date"> {{ post.posting_date }}</div>
+           </div>
+
+          {% for r in reply %}
+           <div class="comment_box">
+              <div id="comment_photo"></div>
+
+              <div id="comment">
+                <div id="comment_id_content"> <b> {{ r.reply_writer }} </b> <span id="profile_content"> {{ r.reply_content }} </span> </div>
+                <div id="posting_date"> {{ r.reply_date }} </div>
+                {% if r.reply_writer == user.username %}
+                <span id="comment_delete"><a href="{% url 'comment_delete' post.id r.id %}">삭제</a></span>
+                {% endif %}
+              </div>
+           </div>
+           {% endfor %}
+        </div>
+
+        <div id="like_box">
+
+          {% if user in post.like_user.all %}
+          <button type="button" id="{{post.id}}" onclick="post_like(this.id)">
+            <img id="img-button-{{post.id}}" class="like_button" src="{% static 'images/click_heart.png' %}" >
+          </button>
+          {% else %}
+          <button type="button" id="{{post.id}}" onclick="post_like(this.id)">
+            <img id="img-button-{{post.id}}" class="like_button" src="{% static 'images/unclicked_heart.png' %}" >
+          </button>
+          {% endif %}
+
+          <img id="comment_button" src="{% static 'images/comment.png' %}">
+
+          <img id="post_button" src="{% static 'images/post.png' %}">
+          <img id="bookmark_button" src="{% static 'images/unclicked_bookmark.png' %}">
+          <div class="comment_like" id="posting-like-{{post.id}}"> <b>{{ post.like_count }}명</b>이 좋아합니다. </div>
+          <div id="like_box_posting_date"> {{ post.posting_date }} </div>
+
+
+        </div>
+
+        <div id="comment_input">
+          <form action="{% url 'comment_create' post.id %}" method="POST">
+            {% csrf_token %}
+            <div id="reply_input">
+              <input type="text" name="reply" class="comment_input" placeholder="comment...">
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    {% endblock %}
+
+  </body>
+
+
+</html>

@@ -1,0 +1,100 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>my instagram</title>
+
+  {% block extrahead %}
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    $('.menu_li').each(function(index){
+      $(this).attr('menu-index', index);
+    }).click(function(){
+      var index = $(this).attr('menu-index');
+      $('.menu_li[menu-index=' + index + ']').addClass('clicked_menu')
+    });
+  });
+
+  $(document).ready(function(){
+    $('#content_posting').mouseover(function(){
+      jQuery('.content_posting').css("display", "block");
+    })
+    $('#content_posting').mouseout(function(){
+      jQuery('.content_posting').css("display", "none");
+    })
+  })
+
+
+
+  </script>
+  {% endblock %}
+
+
+</head>
+
+
+<body>
+  {% block content %}
+
+  <!-- 본문 -->
+  <div class="content">
+
+    <div class="my_profile">
+      <img id="my_photo" src="{{ user.user_photo.url }}">
+
+      <div class="my_profile_all">
+        <div id="my_id">{{ user.username }}</div>
+        {% if user.id == session_id %}
+        <button id="my_edit" type="button" name="profile_edit" onclick="location.href='{% url 'profile_edit' user.id %}'"> 프로필 편집 </button>
+        {% else %}
+         {% if request.user not in user.follower.all %}
+         <button id="my_follow" type="button" onclick="location.href='{% url 'follow' user.id %}'">팔로우하기</button>
+         {% else  %}
+         <button id="my_follow" type="button" onclick="location.href='{% url 'follow' user.id %}'">팔로우 취소</button>
+         {% endif %}
+        {% endif %}
+
+        <div id="my_settings"></div>
+
+        <ul class="my_ul">
+          <li id="my_li">게시글 {{ post_count }}</li>
+          <li id="my_li"><a href="{% url 'follow_list' user.id %}">팔로워 {{ user.follower.count }}</a></li>
+          <li id="my_li"><a href="{% url 'following_list' user.id %}">팔로잉 {{ user.following.count }}</a></li>
+        </ul>
+
+        <div class="my_nickname">{{ user.user_nickname }}</div>
+        <div class="my_introduce">{{ user.user_intro }}</div>
+
+
+      </div>
+    </div>
+
+    <div id="my_content">
+      <div class="content_menu">
+        <ul id="content_menu_ul">
+          <li class="menu_li" ><a href="{% url 'profile' user.id %}" onclick="click()">게시물</a></li>
+          <li class="menu_li"><a href="{% url 'saved' user.id %}">저장됨</a></li>
+          <li class="menu_li"><a href="">태그됨</a></li>
+        </ul>
+      </div>
+
+      <div class="my_posting">
+        {% for posting in post.all %}
+
+        <img id = "content_posting" src="{{ posting.posting_photo.url }}" >
+        <div class="content_posting"></div>
+        {% endfor %}
+      </div>
+  </div>
+
+
+  </div>
+
+{% endblock %}
+</body>
+</html>

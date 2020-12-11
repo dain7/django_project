@@ -1,0 +1,45 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Dainstagram</title>
+    {% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/search_result.css' %}">
+    {% endblock %}
+  </head>
+  <body>
+
+    {% block content %}
+    <div class="content">
+      <div id="hashtag_posting">
+        {% if post_ %}
+       <img id="photo" src="{{ post_.posting_photo.url }}">
+       {% else %}
+       <img id="photo">
+       {% endif %}
+       <div id="hashtag">#{{ keyword }}</div>
+       <div id="hashtag_count">게시글 {{ post.count }}개</div>
+      </div>
+
+      <br>
+      <br>
+      <br>
+
+      <div id="title">{{ keyword }}과 관련된 게시물</div>
+
+      <div class="image_box">
+        {% for post in post.all %}
+        <img id="image_box" src="{{ post.posting_photo.url }}">
+        {% endfor %}
+      </div>
+
+    </div>
+
+
+    {% endblock %}
+  </body>
+
+
+</html>

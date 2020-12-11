@@ -1,0 +1,213 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+{% load post_extras %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dainstagram</title>
+  {% block extrahead %}
+  <link rel="stylesheet" href="{% static "css/main.css" %}">
+
+  <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript">
+
+
+  function post_like(id) {
+    $.ajax({
+      type: "POST",
+      url: "{% url 'post_like' %}",
+      data: {
+        'blog_id': id,
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      dataType: "json",
+      success: function(response){
+        if(response.message == '좋아요 취소!'){
+          $("#posting-like-"+id).html('좋아요 ' + response.like_count + '개');
+          $("#img-button-"+id).attr("src", "/static/images/unclicked_heart.png");
+
+        } else {
+          $("#posting-like-"+id).html('좋아요 ' + response.like_count + '개');
+          $("#img-button-"+id).attr("src", "/static/images/click_heart.png");
+        }
+      }
+    })
+  }
+
+  function bookmark(id){
+    $.ajax({
+      type: "POST",
+      url: "{% url 'bookmark' %}",
+      data: {
+        'posting_id': id,
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      dataType: "json",
+      success: function(response){
+        if (response.message == '북마크'){
+          $("#bookmark-button-"+id).attr("src", "/static/images/clicked_bookmark.png");
+        } else {
+          $("#bookmark-button-"+id).attr("src", "/static/images/unclicked_bookmark.png");
+        }
+      }
+    })
+  }
+
+
+  $(document).ready(function(){
+    var choice = 0;
+    $(".menu_button").click(function(){
+      if(choice == 0) {
+        var button = $('.drop_menu');
+        button.css('display', 'block');
+        choice = 1;
+      } else {
+        var button = $('.drop_menu');
+        button.css('display', 'none');
+        choice = 0;
+      }
+
+    });
+  });
+
+  </script>
+  {% endblock %}
+</head>
+
+<body>
+
+  {% block content %}
+
+
+  <!-- 본문 -->
+  <div class="content">
+
+    <section>
+      <!-- 스토리 -->
+      <div id="story">
+        <div id="story_fr">
+          <div id="story_photo"></div>
+          <div id="story_name">메롱이</div>
+        </div>
+      </div>
+
+
+
+      <!-- 포스팅 -->
+      {% for posting in post.all %}
+      <div id="posting">
+        <ul id="posting_user">
+          <li>
+            <img id="posting_frphoto" src="{{ posting.posting_writer.user_photo.url }}">
+          </li>
+          <li>
+            <div id="posting_name"><a href="{% url 'profile' posting.posting_writer.id %}">{{ posting.posting_writer }}</a></div>
+          </li>
+          {% if posting.posting_writer == user %}
+          <ul id="posting_menu">
+            <button class="menu_button">···</button>
+            <div class="drop_menu">
+              <div><a href="{% url 'edit' posting.id %}">수정</a></div>
+              <div><a href="{% url 'delete' posting.id %}">삭제</a></div>
+            </div>
+          </ul>
+          {% endif %}
+          <!-- <li><button id="posting_menu">메뉴</button></li> -->
+        </ul>
+        <img id="posting_photo" src="{{ posting.posting_photo.url }}">
+        <ul id="posting_ul">
+
+          <li id="posting_li">
+            {% if user in posting.like_user.all %}
+            <button type="button" id="{{posting.id}}" onclick="post_like(this.id)">
+              <img id="img-button-{{posting.id}}" class="like_button" src="{% static 'images/click_heart.png' %}" >
+            </button>
+            {% else %}
+            <button type="button" id="{{posting.id}}" onclick="post_like(this.id)">
+              <img id="img-button-{{posting.id}}" class="like_button" src="{% static 'images/unclicked_heart.png' %}" >
+            </button>
+            {% endif %}
+
+            <!-- <input type="image" id="{{ posting.id }}" src='{% static 'images/unclicked_heart.png' %}' onclick="post_like(this.id)" width="15px" height="15px"> -->
+          </li>
+
+          <li id="posting_li"><a href="{% url 'detail' posting.id %}"><img id="comment_img" src="{% static 'images/comment.png' %}" alt=""></a></li>
+          <li id="posting_li"><img id="comment_img" src="{% static 'images/post.png' %}"></li>
+          <li id="posting_li" class="bookmark">
+            {% if posting in user.bookmark.all %}
+            <button type="button" id="{{posting.id}}" onclick="bookmark(this.id)">
+              <img id="bookmark-button-{{posting.id}}" class="comment_bookmark" src="{% static 'images/clicked_bookmark.png' %}" >
+            </button>
+            {% else %}
+            <button type="button" id="{{posting.id}}" onclick="bookmark(this.id)">
+              <img id="bookmark-button-{{posting.id}}" class="comment_bookmark" src="{% static 'images/unclicked_bookmark.png' %}" >
+            </button>
+            {% endif %}
+          </li>
+        </ul>
+
+        <div id="posting-like-{{posting.id}}" class="posting_like">좋아요 {{ posting.like_count }}개</div>
+        <div id="posting_content">
+          <div id="content_content"> <a id="content_name" href=""><b>{{ posting.posting_writer }}</b></a>
+            <!-- {{ posting.posting_content }}</div> -->
+            <span id="content_tag"> {{ posting|add_link|safe }} </span> </div>
+        </div>
+        <div id="posting_reply">
+          <div id="reply_content"> <a id="reply_name" href="{% url 'reply_create' posting.id }"><b>{{ reply.reply_writer }}</b></a>
+          {{ reply.reply_content }}</div>
+        </div>
+        <div id="posting_time">{{ posting.posting_date }}</div>
+        <form action="{% url 'reply_create' posting.id %}" method="post">
+          {% csrf_token %}
+          <div id="reply_input">
+            <input type="text" name="reply" value="댓글을 입력해주세요">
+          </div>
+        </form>
+      </div>
+      {% endfor %}
+
+
+
+
+    </section>
+
+    <!-- 추천 계정 -->
+    <aside>
+      <div id="recommand">
+        <div id="recommand_me">
+          <img id="recommand_photo" src="{{ user.user_photo.url }}">
+          <!-- <div id="recommand_photo"></div> -->
+          <div id="recommand_id"><a href="{% url 'profile' user.id %}">{{ user.username }}</a></div>
+          <div id="recommand_nickname">{{ user.user_nickname }}</div>
+        </div>
+
+      <div id="recommand_fr">
+        <div id="recommand_line">회원님을 위한 추천</div>
+        <div id="recommand_more">모두보기</div>
+
+        <div>
+          <div id="recommand_fr_info">
+            <div id="fr_info_photo"></div>
+            <div id="fr_info_id">cherry_love</div>
+            <div id="fr_follow">팔로우</div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div id="tistory"> Tistory, https://cowimming.tistory.com </div>
+        <div id="instagram"> Instagram, @aboutdain </div>
+
+        <div id="instagram"> @copyright: dain kim </div>
+      </footer>
+
+      </div>
+    </aside>
+
+</div>
+{% endblock %}
+</body>
+</html>
